@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 
-DATA_DIR = "d:/ANIL A/Documents/AEGIS TOWER/backend/data"
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 os.makedirs(DATA_DIR, exist_ok=True)
 
 CACHE_TLE_PATH = os.path.join(DATA_DIR, "cached_active_tles.txt")

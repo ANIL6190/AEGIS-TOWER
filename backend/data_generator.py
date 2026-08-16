@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 
-DATA_DIR = "d:/ANIL A/Documents/AEGIS TOWER/backend/data"
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 os.makedirs(DATA_DIR, exist_ok=True)
 TRAINING_DATA_PATH = os.path.join(DATA_DIR, "training_data.csv")
 

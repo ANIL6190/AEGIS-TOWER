@@ -299,9 +299,10 @@ def compute_all_conjunctions():
                 "is_debris2":        is_deb2,
             }])
 
-            # ── Predict collision probability ──────────────────────────────
+            # ── Predict collision probability (model outputs log10 probability) ───
             try:
-                pred_prob = float(model_prob.predict(feat_df)[0])
+                pred_log_prob = float(model_prob.predict(feat_df)[0])
+                pred_prob = float(10 ** pred_log_prob)
             except Exception as ml_err:
                 print(f"ML prediction error: {ml_err}")
                 pred_prob = 0.0001
@@ -431,7 +432,8 @@ def post_predict_api():
         "is_debris2":       data.get("is_debris2", 1),
     }])
 
-    pred_prob = float(model_prob.predict(feat_df)[0])
+    pred_log_prob = float(model_prob.predict(feat_df)[0])
+    pred_prob = float(10 ** pred_log_prob)
 
     return jsonify({
         "inc_diff":             inc_diff,

@@ -85,8 +85,8 @@ def simulate_conjunction_evolution(row: pd.Series, model_prob, features: list,
             feat[f]  = max(0.0, base_val + noise)
 
         feat_df = pd.DataFrame([feat])
-        pred_prob = float(model_prob.predict(feat_df)[0])
-        pred_prob = float(np.clip(pred_prob, 0.0, 1.0))
+        pred_log = float(model_prob.predict(feat_df)[0])
+        pred_prob = float(np.clip(10**pred_log, 0.0, 1.0))
 
         results.append({
             "hours_to_tca":   tca_hours,
@@ -141,7 +141,7 @@ def run_evaluation():
     print(f"\n  --- Training Metrics (on held-out 20% random split within train set) ---")
     print(f"  Miss Distance  : MAE = {metrics['range_mae']:.4f} km    | R2 = {metrics['range_r2']:.4f}")
     print(f"  Rel. Velocity  : MAE = {metrics['speed_mae']:.4f} km/s  | R2 = {metrics['speed_r2']:.4f}")
-    print(f"  Collision Prob : MAE = {metrics['prob_mae']:.6e}         | R2 = {metrics['prob_r2']:.4f}")
+    print(f"  Collision Prob : MAE = {metrics['prob_mae']:.6e}         | Log10 R2 = {metrics.get('prob_log_r2', metrics['prob_r2']):.4f} (Raw R2: {metrics['prob_r2']:.4f})")
 
     # --- Step 4: Sequential Time-Series Evaluation ----------------------------
     print("\n[4/4] Sequential evaluation: simulating conjunction evolution over time...")

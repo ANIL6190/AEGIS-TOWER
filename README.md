@@ -1,4 +1,4 @@
-﻿# AEGIS TOWER
+# AEGIS TOWER
 ### AI-Powered Space Situational Awareness Console
 
 ![AEGIS TOWER](https://img.shields.io/badge/AEGIS%20TOWER-v3.2.0-00e5ff?style=for-the-badge&labelColor=020408)
@@ -38,12 +38,12 @@ CelesTrak SOCRATES  --►  data_fetcher.py  --►  training_data.csv
                            /api/conjunctions  --►  React Dashboard
 ```
 
-### Model Performance (Trained on 500 real SOCRATES records)
-| Model | MAE | R2 Score |
-|---|---|---|
-| Miss Distance Regressor | 1.23 km | **89.28%** |
-| Relative Velocity Regressor | 0.44 km/s | **98.44%** |
-| Collision Probability Regressor | 3.01e-04 | Calibrated |
+### Model Performance (Trained on 500 synthetic SOCRATES-aligned orbital records with live CelesTrak scraper)
+| Model | MAE | R² Score | Note |
+|---|---|---|---|
+| Miss Distance Regressor | 1.23 km | **0.8928** | Linear scale |
+| Relative Velocity Regressor | 0.44 km/s | **0.9844** | Linear scale |
+| Collision Probability Regressor | 4.45e-04 | **0.5559** | $\log_{10}$ target space |
 
 ### Sequential Time-Series Evaluation
 Chronological train/test split (no future leakage). Predictions sharpen as TCA approaches:
