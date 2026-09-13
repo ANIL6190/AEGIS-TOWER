@@ -8,6 +8,15 @@
 ![ML](https://img.shields.io/badge/ML-Random%20Forest%20Regressor-orange?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
+
+---
+
+## 📹 Live System Demo
+
+![AEGIS TOWER Demo](demo.gif)
+
+> 🎬 **Full HD Video Recording**: [`AEGIS_TOWER.mp4`](./AEGIS_TOWER.mp4)
+
 ---
 
 ## Overview
