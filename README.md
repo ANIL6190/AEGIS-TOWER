@@ -73,34 +73,36 @@ All telemetry, threat streams, and spatial vectors are rendered in a bespoke **4
 ```mermaid
 flowchart TD
     subgraph Ingestion["1. Data Ingestion & Orbital Catalogs"]
-        A[CelesTrak SOCRATES API] -->|Conjunction Logs| B[data_fetcher.py]
-        C[Active Satellites & Debris TLEs] -->|Orbital Ephemeris| B
-        B --> D[(training_data.csv)]
+        A["CelesTrak SOCRATES API"] -->|Conjunction Logs| B["data_fetcher.py"]
+        C["Active Satellites & Debris TLEs"] -->|Orbital Ephemeris| B
+        B --> D[("training_data.csv")]
     end
 
     subgraph Training["2. Model Training & Offline Calibration"]
-        D --> E[train.py]
-        E -->|Chronological Split| F[Feature Extractor: 9 Orbital Diffs]
-        F --> G1[RF Regressor: Miss Distance]
-        F --> G2[RF Regressor: Relative Velocity]
-        F --> G3[RF Regressor: Log10 P(c)]
-        G1 & G2 & G3 --> H[(models.joblib)]
+        D --> E["train.py"]
+        E -->|Chronological Split| F["Feature Extractor (9 Orbital Diffs)"]
+        F --> G1["RF Regressor: Miss Distance"]
+        F --> G2["RF Regressor: Relative Velocity"]
+        F --> G3["RF Regressor: Collision Prob P(c)"]
+        G1 --> H[("models.joblib")]
+        G2 --> H
+        G3 --> H
     end
 
     subgraph Runtime["3. Real-Time Inference Backend (Flask API)"]
-        TLE[Live TLE Inventory] --> I[app.py Keplerian Propagator]
-        I -->|48h Orbital Steps| J[Differential Feature Matrix]
-        H -.->|Load Weights| K[Inference Engine]
+        TLE["Live TLE Inventory"] --> I["app.py Keplerian Propagator"]
+        I -->|48h Orbital Steps| J["Differential Feature Matrix"]
+        H -.->|Load Weights| K["Inference Engine"]
         J --> K
-        K --> L[Risk Tier Classifier]
-        L --> M[REST Endpoints /api/conjunctions]
+        K --> L["Risk Tier Classifier"]
+        L --> M["REST Endpoints: /api/conjunctions"]
     end
 
     subgraph Presentation["4. Tactical Console (React 18 + Three.js)"]
-        M --> N[Threat Stream Panel]
-        M --> O[3D WebGL Hologram Earth]
-        M --> P[Tracked Objects Catalogue]
-        M --> Q[ML Diagnostics & HUD Telemetry]
+        M --> N["Threat Stream Panel"]
+        M --> O["3D WebGL Hologram Earth"]
+        M --> P["Tracked Objects Catalogue"]
+        M --> Q["ML Diagnostics & HUD Telemetry"]
     end
 
     style Ingestion fill:#070d17,stroke:#00e5ff,stroke-width:1px,color:#fff
